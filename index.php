@@ -28,14 +28,29 @@ if (empty($_SESSION['listings'])) {
         ?>
 
         <main class="container mx-auto px-6 py-8">
-            <h1 class="text-2xl font-semibold text-gray-900 mb-1">Nos Annonces</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 mb-1">Nos annonces de maisons</h1>
             <hr class="h-px mb-8 bg-gray-300 border-0 dark:bg-gray-700">
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
                     foreach ($properties as $property) {
+                        if ($property['type'] === 'house') {
+                            require 'src/_partials/listings/_card.php';
+                        }
+                    }
+                ?>
+            </div>
+
+            <h1 class="text-2xl font-semibold text-gray-900 mb-1 mt-20">Nos annonces d'appartements</h1>
+            <hr class="h-px mb-8 bg-gray-300 border-0 dark:bg-gray-700">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <?php
+                foreach ($properties as $property) {
+                    if ($property['type'] === 'apartment') {
                         require 'src/_partials/listings/_card.php';
                     }
+                }
                 ?>
             </div>
         </main>

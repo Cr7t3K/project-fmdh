@@ -3,6 +3,7 @@
 $properties = [
     [
         'title' => 'Appartement haussmannien',
+        'type' => 'apartment',
         'price' => 1200000,
         'transaction' => 'sale',
         'city' => 'Paris',
@@ -12,6 +13,7 @@ $properties = [
     ],
     [
         'title' => 'Maison de campagne',
+        'type' => 'house',
         'price' => 2000,
         'transaction' => 'rent',
         'city' => 'Lyon',
@@ -21,6 +23,7 @@ $properties = [
     ],
     [
         'title' => 'Studio moderne',
+        'type' => 'apartment',
         'price' => 850,
         'transaction' => 'rent',
         'city' => 'Marseille',
@@ -30,6 +33,7 @@ $properties = [
     ],
     [
         'title' => 'Penthouse luxueux',
+        'type' => 'house',
         'price' => 3000000,
         'transaction' => 'sale',
         'city' => 'Nice',
@@ -39,6 +43,7 @@ $properties = [
     ],
     [
         'title' => 'Chalet en montagne',
+        'type' => 'house',
         'price' => 750000,
         'transaction' => 'sale',
         'city' => 'Chamonix',
@@ -48,6 +53,7 @@ $properties = [
     ],
     [
         'title' => 'Loft industriel',
+        'type' => 'apartment',
         'price' => 2200,
         'transaction' => 'rent',
         'city' => 'Bordeaux',

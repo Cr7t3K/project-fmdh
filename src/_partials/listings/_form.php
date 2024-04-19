@@ -7,6 +7,15 @@
                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
     <div class="mb-4">
+        <label for="property_type" class="block text-gray-700 text-sm font-bold mb-2">Property type</label>
+        <select id="property_type" name="property_type" required
+                class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <option selected disabled>-- select type --</option>
+            <option value="house">House</option>
+            <option value="apartment">Apartment</option>
+        </select>
+    </div>
+    <div class="mb-4">
         <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Image</label>
         <input type="text" id="image" name="image" required
                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">

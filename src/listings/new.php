@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
 
     $title = cleanInput($_POST['title'] ?? '');
+    $propertyType = cleanInput($_POST['property_type'] ?? '');
     $price = cleanInput($_POST['price'] ?? 0);
     $location = cleanInput($_POST['location'] ?? '');
     $type = cleanInput($_POST['transaction'] ?? '');
@@ -25,6 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($title)) {
         $errors['title'] = "Le title est requis.";
+    }
+
+    if (empty($propertyType)) {
+        $errors['property_type'] = "Le type de bien est requis.";
     }
 
     if (empty($price)) {
@@ -53,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (count($errors) === 0) {
         $_SESSION['listings'][] = [
             'title' => $title,
+            'type' => $propertyType,
             'price' => $price,
             'transaction' => $type,
             'city' => $location,
