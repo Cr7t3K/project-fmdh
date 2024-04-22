@@ -7,7 +7,7 @@ $properties = [
         'price' => 1200000,
         'transaction' => 'sale',
         'city' => 'Paris',
-        'favorite' => true,
+        'favorite' => false,
         'img' => '/public/img/apartment1.jpeg',
         'description' => 'Spacieux appartement haussmannien avec finitions d\'époque, situé en plein cœur de Paris.'
     ],
@@ -17,7 +17,7 @@ $properties = [
         'price' => 2000,
         'transaction' => 'rent',
         'city' => 'Lyon',
-        'favorite' => true,
+        'favorite' => false,
         'img' => '/public/img/house3.jpeg',
         'description' => 'Charmante maison de campagne offrant tranquillité et espace, idéale pour une escapade familiale.'
     ],
@@ -27,7 +27,7 @@ $properties = [
         'price' => 850,
         'transaction' => 'rent',
         'city' => 'Marseille',
-        'favorite' => false,
+        'favorite' => true,
         'img' => '/public/img/apartment2.jpeg',
         'description' => 'Studio compact et moderne, parfait pour les jeunes professionnels souhaitant vivre en ville.'
     ],

@@ -14,10 +14,12 @@
         <p class="text-gray-500 mt-2"><?= strlen($fullDescription) > 100 ? substr($fullDescription, 0, 100) . "..." : $fullDescription ?></p>
         <div class="flex items-center justify-between mt-3">
             <button class="px-3 py-2 bg-blue-500 text-white text-xs font-bold uppercase rounded">Contact</button>
-            <?php if ($property['favorite']): ?>
-                <a class="absolute top-0 right-0 p-4" href=""><i class="fa-solid fa-heart fa-2xl text-red-700 shadow-xl"></i></a>
-            <?php else: ?>
-                <a class="absolute top-0 right-0 p-4" href=""><i class="fa-regular fa-heart fa-2xl shadow-xl"></i></a>
+            <?php if (!empty($_SESSION['isLoggedIn'])): ?>
+                <?php if ($property['favorite']): ?>
+                    <a class="absolute top-0 right-0 p-4" href="/src/listings/toggleFavorite.php?id=<?= $index ?>"><i class="fa-solid fa-heart fa-2xl text-red-700 shadow-xl"></i></a>
+                <?php else: ?>
+                    <a class="absolute top-0 right-0 p-4" href="/src/listings/toggleFavorite.php?id=<?= $index ?>"><i class="fa-regular fa-heart fa-2xl shadow-xl"></i></a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>

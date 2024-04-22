@@ -33,7 +33,7 @@ if (empty($_SESSION['listings'])) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                    foreach ($properties as $property) {
+                    foreach ($properties as $index => $property) {
                         if ($property['type'] === 'house') {
                             require 'src/_partials/listings/_card.php';
                         }
@@ -46,7 +46,7 @@ if (empty($_SESSION['listings'])) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                foreach ($properties as $property) {
+                foreach ($properties as $index => $property) {
                     if ($property['type'] === 'apartment') {
                         require 'src/_partials/listings/_card.php';
                     }
