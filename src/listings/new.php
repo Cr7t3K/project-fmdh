@@ -19,51 +19,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $propertyType = cleanInput($_POST['property_type'] ?? '');
     $price = cleanInput($_POST['price'] ?? 0);
     $location = cleanInput($_POST['location'] ?? '');
-    $type = cleanInput($_POST['transaction'] ?? '');
+    $transaction = cleanInput($_POST['transaction'] ?? '');
     $description = cleanInput($_POST['description'] ?? '');
-    $image = cleanInput($_POST['image'] ?? '');
-
+    $image = $_FILES['image'] ?? '';
 
     if (empty($title)) {
-        $errors['title'] = "Le title est requis.";
+        $errors['title'] = "The title is required.";
     }
 
     if (empty($propertyType)) {
-        $errors['property_type'] = "Le type de bien est requis.";
+        $errors['property_type'] = "Type of property required.";
     }
 
     if (empty($price)) {
-        $errors['price'] = "Le price est requis.";
+        $errors['price'] = "Price is required.";
     } elseif (!is_numeric($price) || $price < 0) {
-        $errors['price'] = "Le price doit être un nombre positif.";
+        $errors['price'] = "The price must be a positive number.";
     }
 
     if (empty($location)) {
-        $errors['location'] = "La localisation est requise.";
+        $errors['location'] = "Location is required.";
     }
 
-    if (empty($type) || $type !== 'rent' && $type !== 'sale') {
-        $errors['type'] = "Le type de bien est requis.";
+    if (empty($transaction) || $transaction !== 'rent' && $transaction !== 'sale') {
+        $errors['transaction'] = "The type of contract is required.";
     }
 
     if (empty($description)) {
-        $errors['description'] = "La description est requise.";
+        $errors['description'] = "Description is required.";
     }
 
     if (empty($image)) {
-        $errors['image'] = "La description est requise.";
+        $errors['image'][] = "The image is required.";
     }
 
-    
-    if (count($errors) === 0) {
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+        $allowed = ["jpg" => "image/jpeg", "jpeg" => "image/jpeg", "png" => "image/png"];
+        $filename = $_FILES["image"]["name"];
+        $filetype = $_FILES["image"]["type"];
+        $filesize = $_FILES["image"]["size"];
+        $ext = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+        $destination = "uploads/" . uniqid('listing') . ".{$ext}";
+
+        // 5MB maximum
+        $maxsize = 5 * 1024 * 1024;
+        if ($filesize > $maxsize) {
+            $errors['image'][] = "The file size exceeds the authorized limit. (5MB)";
+        }
+
+        if (in_array($filetype, $allowed)) {
+            if (empty($errors)) {
+                if (!is_dir(__DIR__ . "/../../uploads")) {
+                    mkdir(__DIR__ . "/../../uploads", 0777, true); // true for recursive create
+                }
+               if (!move_uploaded_file($_FILES["image"]["tmp_name"], __DIR__ . "/../../{$destination}")) {
+                    $errors['image'][] = "Error, please start again!";
+                }
+            }
+        } else {
+            $errors['image'][] = "Please select a valid file format.";
+        }
+    } else {
+        $errors['image'][] = "Error, please start again!";
+    }
+
+    if (empty($errors)) {
         $_SESSION['listings'][] = [
             'title' => $title,
             'type' => $propertyType,
             'price' => $price,
-            'transaction' => $type,
+            'transaction' => $transaction,
             'city' => $location,
             'favorite' => false,
-            'img' => $image,
+            'img' => $destination,
             'description' => $description
         ];
 
