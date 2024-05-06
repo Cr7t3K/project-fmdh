@@ -1,12 +1,15 @@
 <?php
 session_start();
-require_once 'data/listings.php';
+require_once __DIR__ . "/config/pdo.php";
 
-if (empty($_SESSION['listings'])) {
-    $_SESSION['listings'] = $properties;
-} else {
-    $properties = $_SESSION['listings'];
-}
+$houseQuery = "SELECT * FROM listing WHERE type='house'";
+$apartmentQuery = "SELECT * FROM listing WHERE type='apartment'";
+
+$stmt = $pdo->query($houseQuery);
+$houses = $stmt->fetchAll();
+
+$stmt = $pdo->query($apartmentQuery);
+$apartments = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -33,10 +36,8 @@ if (empty($_SESSION['listings'])) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                    foreach ($properties as $index => $property) {
-                        if ($property['type'] === 'house') {
-                            require 'src/_partials/listings/_card.php';
-                        }
+                    foreach ($houses as $property) {
+                        require 'src/_partials/listings/_card.php';
                     }
                 ?>
             </div>
@@ -46,10 +47,8 @@ if (empty($_SESSION['listings'])) {
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                foreach ($properties as $index => $property) {
-                    if ($property['type'] === 'apartment') {
-                        require 'src/_partials/listings/_card.php';
-                    }
+                foreach ($apartments as $property) {
+                    require 'src/_partials/listings/_card.php';
                 }
                 ?>
             </div>

@@ -1,0 +1,10 @@
+<?php
+
+// Copiez-collez ce fichier et changez le nom comme ceci "vars.php"
+// Puis modifiez les valeurs
+
+define('APP_DB_USER', 'username');
+define('APP_DB_PASSWORD', 'password');
+define('APP_DB_HOST', 'localhost');
+define('APP_DB_PORT', '3306');
+define('APP_DB_NAME', 'fmdh');

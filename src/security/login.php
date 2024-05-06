@@ -1,19 +1,26 @@
 <?php
 session_start();
+require_once __DIR__ . '/../../config/pdo.php';
 
 if (isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true) {
     header('Location: /index.php');
     exit();
 }
 
-$userAdmin = "admin@fmdh.com";
-$passwordAdmin = "azerty";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if ($email === $userAdmin && $password === $passwordAdmin) {
+    $query = "SELECT * FROM user WHERE email=:email AND password=:password";
+    $stmt = $pdo->prepare($query);
+
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $result = $stmt->fetch();
+
+    if ($result && $result['isActive']) {
         $_SESSION['email'] = $email;
         $_SESSION['isLoggedIn'] = true;
 
