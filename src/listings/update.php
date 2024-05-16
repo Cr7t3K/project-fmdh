@@ -13,7 +13,15 @@ function cleanInput($data) {
     return $data;
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "GET" && !empty($_GET['id'])) {
+    $stmt = $pdo->prepare("SELECT * FROM listing WHERE id=:id");
+    $stmt->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+    $stmt->execute();
+
+    $property = $stmt->fetch();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errors = [];
 
     $title = cleanInput($_POST['title'] ?? '');
@@ -50,11 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['description'] = "Description is required.";
     }
 
-    if (empty($image)) {
-        $errors['image'][] = "The image is required.";
-    }
-
-    if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+    if (isset($_FILES["image"]) && $_FILES["image"]["error"] === 0) {
         $allowed = ["jpg" => "image/jpeg", "jpeg" => "image/jpeg", "png" => "image/png"];
         $filename = $_FILES["image"]["name"];
         $filetype = $_FILES["image"]["type"];
@@ -80,31 +84,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $errors['image'][] = "Please select a valid file format.";
         }
-    } else {
-        $errors['image'][] = "Error, please start again!";
     }
 
     if (empty($errors)) {
-        $query = "INSERT INTO listing (title, price, city, img, description, transaction, type, user_id) VALUES (:title, :price, :city, :img, :description, :transaction, :type, :user)";
+        $query = "UPDATE listing SET title=:title, price=:price, city=:city, img=:img, description=:description, transaction=:transaction, type=:type WHERE id=:id";
         $stmt = $pdo->prepare($query);
         $stmt->bindValue(':title', $title, PDO::PARAM_STR);
         $stmt->bindValue(':price', $price, PDO::PARAM_INT);
         $stmt->bindValue(':city', $location, PDO::PARAM_STR);
-        $stmt->bindValue(':img', $destination, PDO::PARAM_STR);
+        $stmt->bindValue(':img', $destination ?? $_POST['baseImg'], PDO::PARAM_STR);
         $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         $stmt->bindValue(':transaction', $transaction, PDO::PARAM_STR);
         $stmt->bindValue(':type', $propertyType, PDO::PARAM_STR);
-        $stmt->bindValue(':user', $_SESSION['id'], PDO::PARAM_INT);
+        $stmt->bindValue(':id', $_POST['id'], PDO::PARAM_INT);
 
         $stmt->execute();
 
-        $_SESSION['success'] = "Votre annonce a été créée avec succès !";
+        $_SESSION['success'] = "Votre annonce a été mise a jour avec succès !";
 
         header("Location: /index.php");
         exit;
     }
-
-
 }
 ?>
 

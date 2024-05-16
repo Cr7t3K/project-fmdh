@@ -24,10 +24,14 @@ $apartments = $stmt->fetchAll();
     <body class="bg-gray-100">
         <?php require_once 'src/_partials/_header.php' ?>
         <?php
-            if (!empty($_SESSION['success']) && $_SESSION['success'] === true) {
-                include 'src/_partials/listings/_modal-success.php';
-                unset($_SESSION['success']);
-            }
+        if (!empty($_SESSION['success'])) {
+            include 'src/_partials/listings/_modal-success.php';
+            unset($_SESSION['success']);
+        }
+        if (!empty($_SESSION['errors'])) {
+            include 'src/_partials/listings/_modal-errors.php';
+            unset($_SESSION['errors']);
+        }
         ?>
 
         <main class="container mx-auto px-6 py-8">
@@ -56,4 +60,23 @@ $apartments = $stmt->fetchAll();
 
         <?php require_once 'src/_partials/_footer.php' ?>
     </body>
+    <script>
+        let menuContainers = document.querySelectorAll('.menu-container');
+
+        menuContainers.forEach((e) => {
+            const optionsBtn = e.querySelector('.optionsBtn');
+            const optionsMenu = e.querySelector('.optionsMenu');
+
+            optionsBtn.addEventListener('click', () => {
+                optionsMenu.classList.toggle('hidden');
+            });
+
+            // Close options menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!optionsMenu.contains(event.target) && !optionsBtn.contains(event.target)) {
+                    optionsMenu.classList.add('hidden');
+                }
+            });
+        })
+    </script>
 </html>
